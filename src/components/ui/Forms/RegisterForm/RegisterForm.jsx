@@ -33,7 +33,6 @@ const RegisterForm = () => {
   const [alert, setAlert] = useState({ severity: '', message: '' });
   const alertTimeoutRef = useRef(null);
 
-  // 👤 Регистрация с Email/Password
   const handleRegister = async () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -80,7 +79,6 @@ const RegisterForm = () => {
     }
   };
 
-  // 🌐 Google Login
   const handleGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);

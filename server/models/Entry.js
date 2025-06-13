@@ -12,6 +12,7 @@ const entrySchema = new mongoose.Schema({
   activityDuration: { type: Number, default: 0 }, // minutes
   symptoms: { type: String, default: '' }, // e.g., "Feeling good"
   notes: { type: String, default: '' }, // Additional notes
+  createdAt: { type: Date, default: Date.now },
 });
 
 export default mongoose.model('Entry', entrySchema);

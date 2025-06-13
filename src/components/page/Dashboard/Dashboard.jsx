@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function Dashboard() {
   return (
-    <Container fixed>
+    <Container fixed sx={{ mt: 10 }}>
       <Typography variant="h5">Hi, Heorhii!</Typography>
       <Divider />
     </Container>

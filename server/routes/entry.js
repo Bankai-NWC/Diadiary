@@ -1,22 +1,20 @@
 import express from 'express';
 import Entry from '../models/Entry.js';
-import verifyFirebaseToken from '../middleware/verifyFirebaseToken.js'; // middleware для перевірки токена
+import verifyFirebaseToken from '../middleware/verifyFirebaseToken.js';
 
 const router = express.Router();
 
-// ⬇️ Створити новий запис
 router.post('/', verifyFirebaseToken, async (req, res) => {
   try {
-    const userId = req.user._id; // з middleware
+    const userId = req.user._id;
     const newEntry = new Entry({ ...req.body, userId });
     const savedEntry = await newEntry.save();
     res.status(201).json(savedEntry);
   } catch (err) {
-    res.status(500).json({ error: 'Error creating a new entry' });
+    res.status(500).json({ error: 'Error creating a new entry', details: err.message });
   }
 });
 
-// ⬇️ Отримати всі записи користувача
 router.get('/', verifyFirebaseToken, async (req, res) => {
   try {
     const userId = req.user._id;
@@ -27,7 +25,6 @@ router.get('/', verifyFirebaseToken, async (req, res) => {
   }
 });
 
-// ⬇️ Оновити конкретний запис
 router.patch('/:id', verifyFirebaseToken, async (req, res) => {
   try {
     const userId = req.user._id;
@@ -45,7 +42,6 @@ router.patch('/:id', verifyFirebaseToken, async (req, res) => {
   }
 });
 
-// ⬇️ Видалити запис
 router.delete('/:id', verifyFirebaseToken, async (req, res) => {
   try {
     const userId = req.user._id;

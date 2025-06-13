@@ -33,7 +33,6 @@ const LoginForm = () => {
   const [alert, setAlert] = useState({ severity: '', message: '' });
   const alertTimeoutRef = useRef(null);
 
-  // 🔑 Вход с Email/Password
   const handleLogin = async () => {
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -70,8 +69,7 @@ const LoginForm = () => {
       }, 3000);
     }
   };
-
-  // 🌐 Google Login
+  
   const handleGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);

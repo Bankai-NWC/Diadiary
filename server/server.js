@@ -14,17 +14,15 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: 'http://localhost:5173', // URL фронтенда
+    origin: 'http://localhost:5173',
     credentials: true,
   }),
 );
 
-// Роуты
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/entries', entryRoutes);
 
-// Запуск сервера
 const PORT = process.env.PORT || 5000;
 mongoose
   .connect(process.env.MONGO_URI)

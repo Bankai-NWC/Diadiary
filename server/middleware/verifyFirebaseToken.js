@@ -1,4 +1,5 @@
 import admin from '../firebase.js';
+import User from '../models/User.js';
 
 const verifyFirebaseToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -10,7 +11,18 @@ const verifyFirebaseToken = async (req, res, next) => {
 
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
-    req.user = decodedToken;
+
+    if (!decodedToken.email) {
+      return res.status(401).json({ message: 'No email in token' });
+    }
+
+    const user = await User.findOne({ email: decodedToken.email });
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found in database' });
+    }
+
+    req.user = user;
     next();
   } catch (error) {
     res.status(401).json({ message: 'Invalid token' });

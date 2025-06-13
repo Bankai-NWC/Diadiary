@@ -1,17 +1,12 @@
-import {
-  Container,
-  Divider,
-  InputAdornment,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { Button, Container, Divider, Stack } from '@mui/material';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
+
+import { auth } from '../../../firebase';
+import CustomDatePicker from '../../ui/Inputs/CustomDatePicker/CustomDatePicker';
+import CustomTextField from '../../ui/Inputs/CustomTextField/CustomTextField';
+import CustomTimePicker from '../../ui/Inputs/CustomTimePicker/CustomTimePicker';
 
 function AddEntry() {
   const [formData, setFormData] = useState({
@@ -22,16 +17,10 @@ function AddEntry() {
     breadUnits: null,
     weight: null,
     activity: '',
-    activityDuration: dayjs(),
+    activityDuration: dayjs("00:00", "HH:mm"),
+    symptoms: '',
+    notes: '',
   });
-
-  // useEffect(() => {
-  //     setFormData({
-  //       date: date || dayjs(),
-  //     });
-  //   }, [
-  //     date,
-  //   ]);
 
   const handleChange = field => event => {
     const value = event?.target?.value ?? event;
@@ -41,195 +30,146 @@ function AddEntry() {
     }));
   };
 
+  const handleSaveEntry = async () => {
+    try {
+      const idToken = await auth.currentUser.getIdToken();
+
+      const duration = formData.activityDuration;
+      const activityDurationMinutes = duration.hour() * 60 + duration.minute();
+
+      const payload = {
+        date: formData.date.toISOString(),
+        time: formData.time.format('HH:mm'),
+        glucose: parseFloat(formData.glucose),
+        insulin: parseFloat(formData.insulin),
+        breadUnits: parseFloat(formData.breadUnits),
+        weight: parseFloat(formData.weight),
+        activity: formData.activity,
+        activityDuration: activityDurationMinutes,
+        symptoms: formData.symptoms,
+        notes: formData.notes,
+      };
+
+      await axios.post('http://localhost:5000/api/entries', payload, {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
+    } catch (error) {
+      console.error('Error saving entry:', error);
+      alert('Failed to save entry. Please try again.');
+    }
+  };
+
   return (
-    <Container maxWidth="md" sx={{ mt: 10, textAlign: 'center' }}>
-      {/* <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
-        Add New Entry
-      </Typography> */}
-      <Typography variant="body1" sx={{ mb: 2 }}>
-        This page will allow you to add a new entry to your health journal.
-        Please fill out the form with the relevant details.
-      </Typography>
+    <Container maxWidth="md" sx={{ marginBlock: 10, textAlign: 'center' }}>
+      <Divider sx={{ my: 1 }}>Date and time</Divider>
+      <CustomDatePicker
+        label={'Date'}
+        value={formData.date}
+        handleChange={newValue => handleChange('date')(newValue)}
+      />
+      <CustomTimePicker
+        label={'Time'}
+        value={formData.time}
+        handleChange={newValue => handleChange('time')(newValue)}
+      />
+      <Divider sx={{ my: 1 }}>Health indicators</Divider>
+      <CustomTextField
+        label={'Glucose'}
+        value={formData.glucose}
+        handleChange={newValue => handleChange('glucose')(newValue)}
+        placeholder="Example: 5.6"
+        type="number"
+        min={0}
+        max={40}
+        step={0.1}
+        units={'mmol/L'}
+      />
+      <CustomTextField
+        label={'Insulin dose'}
+        value={formData.insulin}
+        handleChange={newValue => handleChange('insulin')(newValue)}
+        placeholder="Example: 5"
+        type="number"
+        min={0}
+        max={100}
+        step={0.1}
+        units={'units'}
+      />
+      <CustomTextField
+        label={'Bread units'}
+        value={formData.breadUnits}
+        handleChange={newValue => handleChange('breadUnits')(newValue)}
+        placeholder="Example: 12"
+        type="number"
+        min={0}
+        max={50}
+        step={0.5}
+        units={'XE'}
+      />
+      <CustomTextField
+        label={'Weight'}
+        value={formData.weight}
+        handleChange={newValue => handleChange('weight')(newValue)}
+        placeholder="Example: 70"
+        type="number"
+        min={0}
+        max={300}
+        step={0.5}
+        units={'kg'}
+      />
+      <Divider sx={{ my: 1 }}>Physical activity</Divider>
+      <CustomTextField
+        label={'Activity'}
+        value={formData.activity}
+        handleChange={newValue => handleChange('activity')(newValue)}
+        placeholder="Example: Running"
+        type="text"
+      />
+      <CustomTimePicker
+        label={'Activity duration'}
+        value={formData.activityDuration}
+        handleChange={newValue => handleChange('activityDuration')(newValue)}
+      />
+      <Divider sx={{ my: 1 }}>Subjective well-being</Divider>
+      <CustomTextField
+        label={'Symptoms'}
+        value={formData.symptoms}
+        handleChange={newValue => handleChange('symptoms')(newValue)}
+        placeholder="Example: Weakness, dizziness"
+        type="text"
+        multiline={true}
+        rows={4}
+      />
+      <CustomTextField
+        label={'Notes'}
+        value={formData.notes}
+        handleChange={newValue => handleChange('notes')(newValue)}
+        placeholder="Example: Feeling good"
+        type="text"
+        multiline={true}
+        rows={4}
+      />
       <Divider sx={{ my: 1 }} />
       <Stack
-        direction={{ sm: 'row', xs: 'column' }}
+        direction="column"
         spacing={2}
-        sx={{
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-        paddingBlock={2}
+        justifyContent="center"
+        sx={{ mt: 2 }}
       >
-        <Typography variant="body1" sx={{ fontSize: 18 }}>
-          Date
-        </Typography>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            value={formData.date}
-            onChange={newValue => handleChange('date')(newValue)}
-          />
-        </LocalizationProvider>
+        <Button
+          color="primary"
+          variant="contained"
+          size="large"
+          onClick={handleSaveEntry}
+        >
+          Save
+        </Button>
+        <Button color="primary" variant="contained" size="large">
+          Cancel
+        </Button>
       </Stack>
-      <Stack
-        direction={{ sm: 'row', xs: 'column' }}
-        spacing={2}
-        sx={{
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-        paddingBlock={2}
-      >
-        <Typography variant="body1" sx={{ fontSize: 18 }}>
-          Time
-        </Typography>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <TimePicker
-            value={formData.time}
-            onChange={newValue => handleChange('time')(newValue)}
-            views={['hours', 'minutes']}
-            ampm={false}
-            format='HH:mm'
-          />
-        </LocalizationProvider>
-      </Stack>
-      <Divider sx={{ my: 1 }} />
-      <Stack
-        direction={{ sm: 'row', xs: 'column' }}
-        spacing={2}
-        sx={{
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-        paddingBlock={2}
-      >
-        <Typography variant="body1" sx={{ fontSize: 18 }}>
-          Glucose
-        </Typography>
-        <TextField
-          value={formData.glucose}
-          onChange={newValue => handleChange('glucose')(newValue)}
-          placeholder='Example: 5.6'
-          type="number"
-          min={0}
-          max={40}
-          sx={{ width: '246px' }}
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">mmol/L</InputAdornment>
-              ),
-              inputProps: {
-                step: '0.1',
-              },
-            },
-          }}
-        />
-      </Stack>
-      <Divider sx={{ my: 1 }} />
-      <Stack
-        direction={{ sm: 'row', xs: 'column' }}
-        spacing={2}
-        sx={{
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-        paddingBlock={2}
-      >
-        <Typography variant="body1" sx={{ fontSize: 18 }}>
-          Insulin dose
-        </Typography>
-        <TextField
-          value={formData.insulin}
-          onChange={newValue => handleChange('insulin')(newValue)}
-          placeholder='Example: 5'
-          type="number"
-          min={0}
-          max={100}
-          sx={{ width: '246px' }}
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">units</InputAdornment>
-              ),
-              inputProps: {
-                step: '0.1',
-              },
-            },
-          }}
-        />
-      </Stack>
-      <Divider sx={{ my: 1 }} />
-      <Stack
-        direction={{ sm: 'row', xs: 'column' }}
-        spacing={2}
-        sx={{
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-        paddingBlock={2}
-      >
-        <Typography variant="body1" sx={{ fontSize: 18 }}>
-          Weight
-        </Typography>
-        <TextField
-          value={formData.weight}
-          onChange={newValue => handleChange('weight')(newValue)}
-          placeholder='Example: 70'
-          type="number"
-          min={0}
-          sx={{ m: 1, width: '246px' }}
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">kg</InputAdornment>
-              ),
-            },
-          }}
-        />
-      </Stack>
-      <Divider sx={{ my: 1 }} />
-      <Stack
-        direction={{ sm: 'row', xs: 'column' }}
-        spacing={2}
-        sx={{
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-        paddingBlock={2}
-      >
-        <Typography variant="body1" sx={{ fontSize: 18 }}>
-          Activity
-        </Typography>
-        <TextField
-          placeholder="Example: Running"
-          value={formData.activity}
-          onChange={newValue => handleChange('activity')(newValue)}
-          sx={{ m: 1, width: '246px' }}
-        />
-      </Stack>
-      <Stack
-        direction={{ sm: 'row', xs: 'column' }}
-        spacing={2}
-        sx={{
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-        paddingBlock={2}
-      >
-        <Typography variant="body1" sx={{ fontSize: 18 }}>
-          Activity duration
-        </Typography>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <TimePicker
-            value={formData.activityDuration}
-            onChange={newValue => handleChange('activityDuration')(newValue)}
-            views={['hours', 'minutes']}
-            ampm={false}
-            format='HH:mm'
-          />
-        </LocalizationProvider>
-      </Stack>
-      <Divider sx={{ my: 1 }} />
     </Container>
   );
 }

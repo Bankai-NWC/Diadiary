@@ -4,10 +4,8 @@ import {
   Avatar,
   Box,
   Button,
-  Container,
   Drawer,
   IconButton,
-  Link,
   List,
   ListItem,
   ListItemButton,
@@ -40,8 +38,12 @@ export default function ButtonAppBar() {
     setOpen(open => !open);
   };
 
-  const handleToLoginPage = () => {
+  const handleToSignInPage = () => {
     navigate('/login');
+  };
+
+  const handleToSignUpPage = () => {
+    navigate('/register');
   };
 
   const handleLogout = async () => {
@@ -127,17 +129,37 @@ export default function ButtonAppBar() {
                 style={{ textDecoration: 'none', color: 'inherit' }}
               >
                 <Tooltip title="Profile" arrow>
-                <Avatar sx={{ width: {xs: 32, sm: 40}, height: {xs: 32, sm: 40} }} src={avatarUrl} alt={avatarUrl.toUpperCase()} />
+                  <Avatar
+                    sx={{
+                      width: { xs: 32, sm: 40 },
+                      height: { xs: 32, sm: 40 },
+                    }}
+                    src={avatarUrl}
+                    alt={avatarUrl.toUpperCase()}
+                  />
                 </Tooltip>
               </RouterLink>
               <Button color="inherit" onClick={handleLogout}>
-                Logout
+                Sign out
               </Button>
             </Stack>
           ) : (
-            <Button color="inherit" onClick={handleToLoginPage} sx={{ mr: 2 }}>
-              Login
-            </Button>
+            <Stack direction="row" spacing={1} sx={{ mr: 2 }}>
+              <Button
+                color="inherit"
+                onClick={handleToSignInPage}
+                sx={{ mr: 2 }}
+              >
+                Sign in
+              </Button>
+              <Button
+                color="inherit"
+                onClick={handleToSignUpPage}
+                sx={{ mr: 2 }}
+              >
+                Sign up
+              </Button>
+            </Stack>
           )}
         </Toolbar>
       </AppBar>
