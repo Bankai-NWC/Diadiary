@@ -16,7 +16,9 @@ dist-ssr
 
 .env*
 !.env.example
+serviceAccountKey.json
 server\serviceAccountKey.json
+**/serviceAccountKey.json
 
 # Editor directories and files
 .vscode/*
