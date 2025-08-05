@@ -11,6 +11,7 @@ import CustomTextField from '../../ui/Inputs/CustomTextField/CustomTextField';
 import CustomTimePicker from '../../ui/Inputs/CustomTimePicker/CustomTimePicker';
 
 function AddEntry() {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -88,7 +89,7 @@ function AddEntry() {
                   : 'Very High',
       };
 
-      await axios.post('http://localhost:5000/api/entries', payload, {
+      await axios.post(`${API_URL}/entries`, payload, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         },

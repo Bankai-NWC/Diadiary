@@ -151,6 +151,7 @@ function a11yProps(index) {
 }
 
 export default function Dashboard() {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   const { name, surname, basalInsulin, bolusInsulin } = useAuth();
 
   const [entries, setEntries] = useState([]);
@@ -279,7 +280,7 @@ export default function Dashboard() {
         ...filterParams,
       };
 
-      const response = await axios.get('http://localhost:5000/api/entries', {
+      const response = await axios.get(`${API_URL}/entries`, {
         params: params,
         headers: {
           Authorization: `Bearer ${idToken}`,
@@ -410,11 +411,6 @@ export default function Dashboard() {
       month: groupedMonthData,
     }));
   }, [groupedMonthData]);
-
-  useEffect(() => {
-    console.log('Month chartData:', chartData.month);
-    console.log('Entries:', entries);
-  }, [chartData.month]);
 
   return (
     <>

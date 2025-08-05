@@ -22,6 +22,7 @@ import { auth } from '../../../firebase';
 import CardList from '../../ui/CardList/CardList';
 
 export default function Entries() {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -54,7 +55,7 @@ export default function Entries() {
         ...filterParams,
       };
 
-      const response = await axios.get('http://localhost:5000/api/entries', {
+      const response = await axios.get(`${API_URL}/entries`, {
         params: params,
         headers: {
           Authorization: `Bearer ${idToken}`,

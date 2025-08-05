@@ -26,6 +26,7 @@ import { setUser } from '../../../../store/slices/userSlice';
 const provider = new GoogleAuthProvider();
 
 const RegisterForm = () => {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -42,10 +43,9 @@ const RegisterForm = () => {
       const user = userCredential.user;
       const idToken = await user.getIdToken();
 
-      const res = await axios.post(
-        'http://localhost:5000/api/auth/firebase-auth',
-        { idToken },
-      );
+      const res = await axios.post(`${API_URL}/auth/firebase-auth`, {
+        idToken,
+      });
       dispatch(
         setAlert({
           message: 'Registration successful. Redirecting to login...',
@@ -79,10 +79,9 @@ const RegisterForm = () => {
       const result = await signInWithPopup(auth, provider);
       const idToken = await result.user.getIdToken();
 
-      const res = await axios.post(
-        'http://localhost:5000/api/auth/firebase-auth',
-        { idToken },
-      );
+      const res = await axios.post(`${API_URL}/auth/firebase-auth`, {
+        idToken,
+      });
       dispatch(setUser(res.data));
       navigate('/dashboard');
       dispatch(

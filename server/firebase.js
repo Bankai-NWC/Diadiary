@@ -1,14 +1,9 @@
-import { readFile } from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 import admin from 'firebase-admin';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+dotenv.config();
 
-const serviceAccountPath = path.join(__dirname, 'serviceAccountKey.json');
-const serviceAccountJSON = await readFile(serviceAccountPath, 'utf-8');
-const serviceAccount = JSON.parse(serviceAccountJSON);
+const serviceAccount = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

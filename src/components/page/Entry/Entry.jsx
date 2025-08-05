@@ -34,6 +34,7 @@ import EntryPDF from '../../ui/PDF/EntryPDF';
 dayjs.extend(customParseFormat);
 
 function Entry() {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -128,14 +129,11 @@ function Entry() {
       case 'Delete':
         try {
           const idToken = await auth.currentUser.getIdToken();
-          const response = await axios.delete(
-            `http://localhost:5000/api/entries/${id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${idToken}`,
-              },
+          const response = await axios.delete(`${API_URL}/entries/${id}`, {
+            headers: {
+              Authorization: `Bearer ${idToken}`,
             },
-          );
+          });
           dispatch(
             setAlert({ message: response.data.message, type: 'success' }),
           );
@@ -186,20 +184,17 @@ function Entry() {
                   : 'Very High',
       };
 
-      await axios.patch(`http://localhost:5000/api/entries/${id}`, payload, {
+      await axios.patch(`${API_URL}/entries/${id}`, payload, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         },
       });
 
-      const response = await axios.get(
-        `http://localhost:5000/api/entries/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-          },
+      const response = await axios.get(`${API_URL}/entries/${id}`, {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
         },
-      );
+      });
 
       setEntry(response.data);
       setEditMode(false);
@@ -223,17 +218,13 @@ function Entry() {
         const fetchEntry = async () => {
           try {
             const idToken = await user.getIdToken();
-            const response = await axios.get(
-              `http://localhost:5000/api/entries/${id}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${idToken}`,
-                },
+            const response = await axios.get(`${API_URL}/entries/${id}`, {
+              headers: {
+                Authorization: `Bearer ${idToken}`,
               },
-            );
+            });
 
             setEntry(response.data);
-            console.log('Fetched entry:', response.data);
           } catch (error) {
             console.error('Error fetching entry:', error);
           }

@@ -29,6 +29,7 @@ import { setAlert } from '../../../store/slices/alertSlice';
 import { setUser } from '../../../store/slices/userSlice';
 
 function Profile() {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   const {
     name,
     surname,
@@ -85,7 +86,7 @@ function Profile() {
         const idToken = await auth.currentUser.getIdToken();
 
         const response = await axios.patch(
-          'http://localhost:5000/api/user/update',
+          `${API_URL}/user/update`,
           updatedFields,
           {
             headers: {
