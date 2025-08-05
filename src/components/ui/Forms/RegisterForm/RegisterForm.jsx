@@ -20,6 +20,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import GoogleLogo from '../../../../assets/google.svg';
 import { auth } from '../../../../firebase';
+import { setAlert } from '../../../../store/slices/alertSlice';
 import { setUser } from '../../../../store/slices/userSlice';
 
 const provider = new GoogleAuthProvider();
@@ -30,8 +31,6 @@ const RegisterForm = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [alert, setAlert] = useState({ severity: '', message: '' });
-  const alertTimeoutRef = useRef(null);
 
   const handleRegister = async () => {
     try {
@@ -47,34 +46,30 @@ const RegisterForm = () => {
         'http://localhost:5000/api/auth/firebase-auth',
         { idToken },
       );
-
-      setAlert({
-        severity: 'success',
-        message: 'Registration successful. Redirecting to login...',
-      });
-      alertTimeoutRef.current = setTimeout(() => {
-        setAlert({ severity: '', message: '' });
+      dispatch(
+        setAlert({
+          message: 'Registration successful. Redirecting to login...',
+          type: 'success',
+        }),
+      );
+      setTimeout(() => {
         navigate('/login');
-      }, 3000);
+      }, 2000);
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
-        console.log('A user with this email address already exists.');
-        setAlert({
-          severity: 'error',
-          message: 'A user with this email address already exists.',
-        });
-        alertTimeoutRef.current = setTimeout(() => {
-          setAlert({ severity: '', message: '' });
-        }, 3000);
+        dispatch(
+          setAlert({
+            message: 'A user with this email address already exists.',
+            type: 'error',
+          }),
+        );
       } else {
-        setAlert({
-          severity: 'error',
-          message: 'Registration error: ' + error.message,
-        });
-        alertTimeoutRef.current = setTimeout(() => {
-          setAlert({ severity: '', message: '' });
-        }, 3000);
-        console.log('Registration error: ' + error.message);
+        dispatch(
+          setAlert({
+            message: 'Registration error: ' + error.message,
+            type: 'error',
+          }),
+        );
       }
     }
   };
@@ -89,16 +84,20 @@ const RegisterForm = () => {
         { idToken },
       );
       dispatch(setUser(res.data));
-
       navigate('/dashboard');
+      dispatch(
+        setAlert({
+          message: 'You have successfully logged into your account.',
+          type: 'success',
+        }),
+      );
     } catch (error) {
-      setAlert({
-        severity: 'error',
-        message: 'Error when logging in via Google: ' + error.message,
-      });
-      alertTimeoutRef.current = setTimeout(() => {
-        setAlert({ severity: '', message: '' });
-      }, 3000);
+      dispatch(
+        setAlert({
+          message: 'Error when logging in via Google: ' + error.message,
+          type: 'error',
+        }),
+      );
     }
   };
 

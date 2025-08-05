@@ -36,8 +36,8 @@ router.post('/firebase-auth', async (req, res) => {
         dateOfIllness: null,
         password: isEmail ? 'firebase_managed' : '',
         avatarUrl: picture,
-        longActingInsulin: '',
-        rapidActingInsulin: '',
+        basalInsulin: '',
+        bolusInsulin: '',
         anamnesis: '',
         сreatedAt: new Date(),
       });

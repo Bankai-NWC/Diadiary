@@ -13,8 +13,8 @@ export function useAuth() {
       dateOfIllness: null,
       id: null,
       avatarUrl: null,
-      longActingInsulin: null,
-      rapidActingInsulin: null,
+      basalInsulin: null,
+      bolusInsulin: null,
       anamnesis: null,
     };
   }
@@ -27,8 +27,8 @@ export function useAuth() {
     dateOfIllness,
     _id,
     avatarUrl,
-    longActingInsulin,
-    rapidActingInsulin,
+    basalInsulin,
+    bolusInsulin,
     anamnesis,
   } = user;
 
@@ -41,8 +41,8 @@ export function useAuth() {
     dateOfIllness,
     id: _id,
     avatarUrl,
-    longActingInsulin,
-    rapidActingInsulin,
+    basalInsulin,
+    bolusInsulin,
     anamnesis,
   };
 }

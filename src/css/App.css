@@ -1,0 +1,13 @@
+input:-webkit-autofill {
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+body[data-theme='light'] input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #f5f5f5 inset !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+body[data-theme='dark'] input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #1a1a1d inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+}

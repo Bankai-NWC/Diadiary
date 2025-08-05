@@ -16,6 +16,7 @@ function CustomTextField(props) {
     >
       <Typography variant="body1" sx={{ fontSize: 18 }}>
         {props.label}
+        {props.required ? <span style={{ color: 'red' }}>&nbsp;*</span> : ''}
       </Typography>
       <TextField
         value={props.value}
@@ -23,21 +24,23 @@ function CustomTextField(props) {
         placeholder={props.placeholder}
         type={props.type}
         sx={{ width: props.multiline ? { xs: '246px', sm: 3 / 4 } : '246px' }}
+        error={!!props.error}
+        helperText={props.helperText ? props.helperText : ''}
         multiline={props.multiline}
         rows={props.rows}
         slotProps={{
           input: {
             endAdornment: props.units ? (
-              <InputAdornment position="end">{props.units}</InputAdornment>
+              <InputAdornment position="end" sx={{width: 1/3, display: "flex", justifyContent: "flex-end"}}>{props.units}</InputAdornment>
             ) : null,
             inputProps:
-            props.type === 'number'
-              ? {
-                  step: props.step,
-                  min: props.min,
-                  max: props.max,
-                }
-              : {},
+              props.type === 'number'
+                ? {
+                    step: props.step,
+                    min: props.min,
+                    max: props.max,
+                  }
+                : {},
           },
         }}
       />

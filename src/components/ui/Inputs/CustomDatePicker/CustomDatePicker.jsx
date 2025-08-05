@@ -17,9 +17,23 @@ function CustomDatePicker(props) {
     >
       <Typography variant="body1" sx={{ fontSize: 18 }}>
         {props.label}
+        {props.required ? <span style={{ color: 'red' }}>&nbsp;*</span> : ''}
       </Typography>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker value={props.value} onChange={props.handleChange} />
+        <DatePicker
+          format="DD/MM/YYYY"
+          value={props.value}
+          onChange={props.handleChange}
+          maxDate={props.maxDate}
+          slotProps={{
+            textField: {
+              error: !!props.error,
+              helperText: props.helperText ? props.helperText : '',
+              placeholder: props.placeholder,
+              sx: { width: '246px' },
+            },
+          }}
+        />
       </LocalizationProvider>
     </Stack>
   );

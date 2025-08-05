@@ -14,12 +14,13 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import GoogleLogo from '../../../../assets/google.svg';
 import { auth } from '../../../../firebase';
+import { setAlert } from '../../../../store/slices/alertSlice';
 import { setUser } from '../../../../store/slices/userSlice';
 
 const provider = new GoogleAuthProvider();
@@ -30,8 +31,6 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [alert, setAlert] = useState({ severity: '', message: '' });
-  const alertTimeoutRef = useRef(null);
 
   const handleLogin = async () => {
     try {
@@ -49,7 +48,12 @@ const LoginForm = () => {
       );
       dispatch(setUser(res.data));
       sessionStorage.setItem('user', JSON.stringify(res.data));
-
+      dispatch(
+        setAlert({
+          message: 'You have successfully logged into your account.',
+          type: 'success',
+        }),
+      );
       navigate('/dashboard');
     } catch (error) {
       let errorMessage = error.message;
@@ -60,16 +64,10 @@ const LoginForm = () => {
         errorMessage = `Login error: ${error.message}`;
       }
 
-      setAlert({
-        severity: 'error',
-        message: errorMessage,
-      });
-      alertTimeoutRef.current = setTimeout(() => {
-        setAlert({ severity: '', message: '' });
-      }, 3000);
+      dispatch(setAlert({ message: errorMessage, type: 'error' }));
     }
   };
-  
+
   const handleGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
@@ -81,16 +79,21 @@ const LoginForm = () => {
       );
       dispatch(setUser(res.data));
       sessionStorage.setItem('user', JSON.stringify(res.data));
+      dispatch(
+        setAlert({
+          message: 'You have successfully logged into your account.',
+          type: 'success',
+        }),
+      );
 
       navigate('/dashboard');
     } catch (error) {
-      setAlert({
-        severity: 'error',
-        message: 'Error when logging in via Google: ' + error.message,
-      });
-      alertTimeoutRef.current = setTimeout(() => {
-        setAlert({ severity: '', message: '' });
-      }, 3000);
+      dispatch(
+        setAlert({
+          message: 'Error when logging in via Google: ' + error.message,
+          type: 'error',
+        }),
+      );
     }
   };
 

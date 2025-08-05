@@ -9,8 +9,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String, default: '' }, // Firebase-managed
   gender: { type: String, default: '' },
   dateOfIllness: { type: Date, default: null },
-  longActingInsulin: { type: String, default: '' },
-  rapidActingInsulin: { type: String, default: '' },
+  bolusInsulin: { type: String, default: '' },
+  basalInsulin: { type: String, default: '' },
   anamnesis: { type: String, default: '' },
   сreatedAt: { type: Date, default: Date.now },
 });
