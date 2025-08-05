@@ -129,7 +129,7 @@ function Entry() {
       case 'Delete':
         try {
           const idToken = await auth.currentUser.getIdToken();
-          const response = await axios.delete(`${API_URL}/entries/${id}`, {
+          const response = await axios.delete(`${API_URL}/api/entries/${id}`, {
             headers: {
               Authorization: `Bearer ${idToken}`,
             },
@@ -218,7 +218,7 @@ function Entry() {
         const fetchEntry = async () => {
           try {
             const idToken = await user.getIdToken();
-            const response = await axios.get(`${API_URL}/entries/${id}`, {
+            const response = await axios.get(`${API_URL}/api/entries/${id}`, {
               headers: {
                 Authorization: `Bearer ${idToken}`,
               },

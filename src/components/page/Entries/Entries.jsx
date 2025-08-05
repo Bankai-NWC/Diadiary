@@ -55,7 +55,7 @@ export default function Entries() {
         ...filterParams,
       };
 
-      const response = await axios.get(`${API_URL}/entries`, {
+      const response = await axios.get(`${API_URL}/api/entries`, {
         params: params,
         headers: {
           Authorization: `Bearer ${idToken}`,

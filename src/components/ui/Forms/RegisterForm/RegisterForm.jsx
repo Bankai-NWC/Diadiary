@@ -43,7 +43,7 @@ const RegisterForm = () => {
       const user = userCredential.user;
       const idToken = await user.getIdToken();
 
-      const res = await axios.post(`${API_URL}/auth/firebase-auth`, {
+      const res = await axios.post(`${API_URL}/api/auth/firebase-auth`, {
         idToken,
       });
       dispatch(
@@ -79,7 +79,7 @@ const RegisterForm = () => {
       const result = await signInWithPopup(auth, provider);
       const idToken = await result.user.getIdToken();
 
-      const res = await axios.post(`${API_URL}/auth/firebase-auth`, {
+      const res = await axios.post(`${API_URL}/api/auth/firebase-auth`, {
         idToken,
       });
       dispatch(setUser(res.data));

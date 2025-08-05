@@ -3,8 +3,6 @@ import LineAxisOutlinedIcon from '@mui/icons-material/LineAxisOutlined';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import MenuIcon from '@mui/icons-material/Menu';
 import PostAddIcon from '@mui/icons-material/PostAdd';
-import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import {
   AppBar,
   Avatar,

@@ -89,7 +89,7 @@ function AddEntry() {
                   : 'Very High',
       };
 
-      await axios.post(`${API_URL}/entries`, payload, {
+      await axios.post(`${API_URL}/api/entries`, payload, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         },

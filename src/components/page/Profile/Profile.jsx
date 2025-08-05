@@ -86,7 +86,7 @@ function Profile() {
         const idToken = await auth.currentUser.getIdToken();
 
         const response = await axios.patch(
-          `${API_URL}/user/update`,
+          `${API_URL}/api/user/update`,
           updatedFields,
           {
             headers: {
