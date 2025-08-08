@@ -1,3 +1,4 @@
+import { useAuth } from '@hooks/useAuth';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import LineAxisOutlinedIcon from '@mui/icons-material/LineAxisOutlined';
 import ListAltIcon from '@mui/icons-material/ListAlt';
@@ -22,16 +23,16 @@ import {
   Typography,
   useScrollTrigger,
 } from '@mui/material';
+import { setAlert } from '@store/slices/alertSlice';
+import { clearUser } from '@store/slices/userSlice';
 import { signOut } from 'firebase/auth';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
+import CustomSwitch from '@ui/Inputs/CustomSwitch/CustomSwitch';
+
 import { auth } from '../../../firebase';
-import { useAuth } from '../../../hooks/useAuth';
-import { setAlert } from '../../../store/slices/alertSlice';
-import { clearUser } from '../../../store/slices/userSlice';
-import CustomSwitch from '../Inputs/CustomSwitch/CustomSwitch';
 
 export default function ButtonAppBar() {
   const navigate = useNavigate();

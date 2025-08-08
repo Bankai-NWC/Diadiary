@@ -1,3 +1,4 @@
+import GoogleLogo from '@assets/google.svg';
 import {
   Alert,
   Box,
@@ -8,20 +9,19 @@ import {
   Typography,
   Zoom,
 } from '@mui/material';
+import { setAlert } from '@store/slices/alertSlice';
+import { setUser } from '@store/slices/userSlice';
 import axios from 'axios';
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
-import GoogleLogo from '../../../../assets/google.svg';
 import { auth } from '../../../../firebase';
-import { setAlert } from '../../../../store/slices/alertSlice';
-import { setUser } from '../../../../store/slices/userSlice';
 
 const provider = new GoogleAuthProvider();
 

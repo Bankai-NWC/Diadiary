@@ -5,10 +5,11 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
+import CustomDatePicker from '@ui/Inputs/CustomDatePicker/CustomDatePicker';
+import CustomTextField from '@ui/Inputs/CustomTextField/CustomTextField';
+import CustomTimePicker from '@ui/Inputs/CustomTimePicker/CustomTimePicker';
+
 import { auth } from '../../../firebase';
-import CustomDatePicker from '../../ui/Inputs/CustomDatePicker/CustomDatePicker';
-import CustomTextField from '../../ui/Inputs/CustomTextField/CustomTextField';
-import CustomTimePicker from '../../ui/Inputs/CustomTimePicker/CustomTimePicker';
 
 function AddEntry() {
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';

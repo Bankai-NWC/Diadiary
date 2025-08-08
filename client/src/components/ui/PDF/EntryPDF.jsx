@@ -1,3 +1,6 @@
+import RobotoBold from '@fonts/Roboto_Bold.ttf';
+import RobotoMedium from '@fonts/Roboto_Medium.ttf';
+import RobotoRegular from '@fonts/Roboto_Regular.ttf';
 import {
   Document,
   Font,
@@ -9,11 +12,7 @@ import {
 } from '@react-pdf/renderer';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
-import React, { useEffect } from 'react';
-
-import RobotoBold from '../../../fonts/Roboto_Bold.ttf';
-import RobotoMedium from '../../../fonts/Roboto_Medium.ttf';
-import RobotoRegular from '../../../fonts/Roboto_Regular.ttf';
+import React from 'react';
 
 dayjs.extend(duration);
 

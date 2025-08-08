@@ -1,3 +1,4 @@
+import { useAuth } from '@hooks/useAuth';
 import {
   Box,
   Button,
@@ -17,6 +18,8 @@ import {
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { setAlert } from '@store/slices/alertSlice';
+import { setUser } from '@store/slices/userSlice';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
@@ -24,9 +27,6 @@ import { Helmet } from 'react-helmet';
 import { useDispatch } from 'react-redux';
 
 import { auth } from '../../../firebase';
-import { useAuth } from '../../../hooks/useAuth';
-import { setAlert } from '../../../store/slices/alertSlice';
-import { setUser } from '../../../store/slices/userSlice';
 
 function Profile() {
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';

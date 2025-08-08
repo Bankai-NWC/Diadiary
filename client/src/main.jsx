@@ -1,11 +1,10 @@
+import App from '@components/App.jsx';
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
+import { store } from '@store/index.js';
+import { darkTheme, lightTheme } from '@themes/index.js';
 import { createRoot } from 'react-dom/client';
 import { Provider, useSelector } from 'react-redux';
-
-import App from './components/App.jsx';
-import { store } from './store/index.js';
-import { darkTheme, lightTheme } from './themes/index.js';
 
 function ThemedApp() {
   const themeMode = useSelector(state => state.theme.theme);

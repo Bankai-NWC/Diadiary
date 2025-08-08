@@ -1,3 +1,5 @@
+import { useAuth } from '@hooks/useAuth';
+import { useProcessedEntries } from '@hooks/useProcessedEntries';
 import SaveIcon from '@mui/icons-material/Save';
 import {
   Box,
@@ -17,10 +19,9 @@ import PropTypes from 'prop-types';
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
+import MonthStatsPDF from '@ui/PDF/MonthStatsPDF';
+
 import { auth } from '../../../firebase';
-import { useAuth } from '../../../hooks/useAuth';
-import { useProcessedEntries } from '../../../hooks/useProcessedEntries';
-import MonthStatsPDF from '../../ui/PDF/MonthStatsPDF';
 
 const DayOverview = lazy(
   () =>

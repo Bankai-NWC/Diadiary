@@ -1,22 +1,23 @@
-import { GlobalStyles, useTheme } from '@mui/material';
+import { useTheme } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import '../css/App.css';
 
-import { changeTheme } from '../store/slices/themeSlice';
-import { setUser } from '../store/slices/userSlice';
+import AddEntry from '@page/AddEntry/AddEntry';
+import Dashboard from '@page/Dashboard/Dashboard';
+import Entries from '@page/Entries/Entries';
+import Entry from '@page/Entry/Entry';
+import Home from '@page/Home/Home';
+import Login from '@page/Login/Login';
+import NotFound from '@page/NotFound/NotFound';
+import Profile from '@page/Profile/Profile';
+import Register from '@page/Register/Register';
+import { changeTheme } from '@store/slices/themeSlice';
+import { setUser } from '@store/slices/userSlice';
+
 import Layout from './Layout';
-import AddEntry from './page/AddEntry/AddEntry';
-import Dashboard from './page/Dashboard/Dashboard';
-import Entries from './page/Entries/Entries';
-import Entry from './page/Entry/Entry';
-import Home from './page/Home/Home';
-import Login from './page/Login/Login';
-import NotFound from './page/NotFound/NotFound';
-import Profile from './page/Profile/Profile';
-import Register from './page/Register/Register';
 
 function App() {
   const theme = useTheme();

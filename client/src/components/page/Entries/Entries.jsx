@@ -18,8 +18,9 @@ import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
+import CardList from '@ui/CardList/CardList';
+
 import { auth } from '../../../firebase';
-import CardList from '../../ui/CardList/CardList';
 
 export default function Entries() {
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';

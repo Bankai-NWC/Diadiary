@@ -1,8 +1,7 @@
 import { Alert, Slide, Snackbar } from '@mui/material';
+import { clearAlert } from '@store/slices/alertSlice';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { clearAlert } from '../../../store/slices/alertSlice';
 
 function Alerts() {
   const dispatch = useDispatch();
@@ -41,7 +40,13 @@ function Alerts() {
       sx={{ position: 'absolute', mt: 8, overflow: 'hidden' }}
       onClose={handleClose}
     >
-      <Alert severity={alertSeverity} onClose={handleClose} sx={{maxWidth: '300px'}}>{alertMessage}</Alert>
+      <Alert
+        severity={alertSeverity}
+        onClose={handleClose}
+        sx={{ maxWidth: '300px' }}
+      >
+        {alertMessage}
+      </Alert>
     </Snackbar>
   );
 }
