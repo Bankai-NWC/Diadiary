@@ -62,7 +62,6 @@ export default function Entries() {
         },
       });
 
-      console.log('Fetched entries:', response.data);
       setEntries(response.data.entries);
       setTotalPages(response.data.totalPages);
       setCurrentPage(page);

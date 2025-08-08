@@ -45,15 +45,15 @@ Please wait patiently, the app will work normally after the initial load.
 
 #### Home Page
 
-![Home Screenshot](public/screenshots/home.png)
+![Home Screenshot](./client/public/screenshots/home.png)
 
 #### Dashboard
 
-![Dashboard Screenshot](public/screenshots/dashboard.png)
+![Dashboard Screenshot](./client/public/screenshots/dashboard.png)
 
 #### Entries Page
 
-![Entries Screenshot](public/screenshots/entries.png)
+![Entries Screenshot](./client/public/screenshots/entries.png)
 
 ---
 
@@ -71,6 +71,7 @@ cd Diadiary
 **Frontend:**
 
 ```bash
+cd client
 npm install
 ```
 
@@ -114,6 +115,7 @@ VITE_API_URL=your_api_key
 **Frontend:**
 
 ```bash
+cd client
 npm run dev
 ```
 

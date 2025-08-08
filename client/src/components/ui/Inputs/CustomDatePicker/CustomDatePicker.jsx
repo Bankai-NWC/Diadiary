@@ -21,6 +21,7 @@ function CustomDatePicker(props) {
       </Typography>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
+          name={props.label}
           format="DD/MM/YYYY"
           value={props.value}
           onChange={props.handleChange}

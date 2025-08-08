@@ -21,6 +21,8 @@ function CustomTimePicker(props) {
       </Typography>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <TimePicker
+          name={props.label}
+          id={props.label}
           value={props.value}
           onChange={props.handleChange}
           views={['hours', 'minutes']}

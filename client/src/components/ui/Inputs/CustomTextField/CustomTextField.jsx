@@ -19,6 +19,8 @@ function CustomTextField(props) {
         {props.required ? <span style={{ color: 'red' }}>&nbsp;*</span> : ''}
       </Typography>
       <TextField
+        name={props.label}
+        id={props.label}
         value={props.value}
         onChange={props.handleChange}
         placeholder={props.placeholder}
@@ -31,7 +33,16 @@ function CustomTextField(props) {
         slotProps={{
           input: {
             endAdornment: props.units ? (
-              <InputAdornment position="end" sx={{width: 1/3, display: "flex", justifyContent: "flex-end"}}>{props.units}</InputAdornment>
+              <InputAdornment
+                position="end"
+                sx={{
+                  width: 1 / 3,
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                }}
+              >
+                {props.units}
+              </InputAdornment>
             ) : null,
             inputProps:
               props.type === 'number'
